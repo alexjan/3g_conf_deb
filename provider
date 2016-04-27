@@ -1,0 +1,82 @@
+# example configuration for a dialup connection authenticated with PAP or CHAP
+#
+# This is the default configuration used by pon(1) and poff(1).
+# See the manual page pppd(8) for information on all the options.
+
+# MUST CHANGE: replace myusername@realm with the PPP login name given to
+# your by your provider.
+# There should be a matching entry with the password in /etc/ppp/pap-secrets
+# and/or /etc/ppp/chap-secrets.
+user "myusername@realm"
+
+# MUST CHANGE: replace ******** with the phone number of your provider.
+# The /etc/chatscripts/pap chat script may be modified to change the
+# modem initialization string.
+connect "/usr/sbin/chat -v -f /etc/chatscripts/pap -T ********"
+
+# Serial device to which the modem is connected.
+/dev/ttyUSB0
+
+# Speed of the serial line.
+460800
+
+# Assumes that your IP address is allocated dynamically by the ISP.
+noipdefault
+# Try to get the name server addresses from the ISP.
+usepeerdns
+# Use this connection as the default route.
+defaultroute
+
+# Makes pppd "dial again" when the connection is lost.
+persist
+
+# Do not ask the remote to authenticate.
+noauth
+
+# Используемое для подключения устройство
+/dev/ttyUSB0
+
+# chat-скрипт
+# В параметре "-T" передаётся имя точки доступа
+connect '/usr/sbin/chat -v -f /etc/chatscripts/gprs -T internet'
+
+# Надо ли менять маршрут по умолчанию
+# Закомментируйте если не надо
+defaultroute
+
+# Использовать ли DNS-сервера провайдера
+# Закомментируйте если не надо
+usepeerdns
+
+# Номер ppp-интерфейса (в данном случае будет ppp100)
+unit 100
+
+# Подключаться в случае обрыва
+persist
+
+# Перепосылать пакеты авторизации каждые 60 секунд
+# Позволяет избежать обрыва соединения при отсутствии трафика
+chap-interval 60
+
+# Идентификатор соединения, используемый для поиска паролей в соответствующих файлах,
+# А так же передаваемый ip-up и ip-down-скриптам
+ipparam Megafon
+
+# Имя пользователя (пароль описывается в файле "/etc/ppp/chap-secrets")
+user "gdata"
+
+# Отключаем любое сжатие
+nopcomp
+novjccomp
+nobsdcomp
+nodeflate
+noaccomp
+
+# Правильная обработка обрывов соединения
+lcp-echo-interval 2
+lcp-echo-failure 3
+
+# IP адрес мы будем получать от провайдера, а не назначать сами
+noipdefault
+
+
